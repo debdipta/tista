@@ -4,7 +4,7 @@ CFLAGS=-g -c -Wall
 LDFLAGS=
 DEBUG_FLAGS=-D$(debug_level)
 
-SOURCES=tista.cpp logger.cpp
+SOURCES=tista.cpp logger.cpp connect.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=tista
 

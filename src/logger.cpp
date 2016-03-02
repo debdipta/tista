@@ -12,6 +12,7 @@ logger* logger::__instance = NULL;
 
 logger::logger()
 {
+    system("mkdir -p /tmp/logger");
     __logpath = "/tmp/logger/logger.log";
     create_log_file(& __fp_log ,__logpath );
 }
