@@ -50,6 +50,20 @@ enum    {
 }
 #endif
 
+#ifndef DEBUGL1
+#ifndef DEBUGL2
+#ifndef DEBUGL3
+
+#define LOG(_level, ...)    {   \
+    do  {   \
+        logger::getInstance()->write_file("%s() : %d : %s\n",               \
+        __FUNCTION__,__LINE__, __VA_ARGS__);       \
+    }while(0);   \
+}
+#endif
+#endif
+#endif
+
 class logger
 {
     FILE *__fp_log = NULL;

@@ -1,10 +1,10 @@
 
 CC=g++
-CFLAGS=-g -c -Wall
+CFLAGS=-g -c 
 LDFLAGS=
 DEBUG_FLAGS=-D$(debug_level)
 
-SOURCES=tista.cpp logger.cpp connect.cpp
+SOURCES=tista.cpp logger.cpp connect.cpp soc.c
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=tista
 
