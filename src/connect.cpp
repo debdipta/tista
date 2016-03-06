@@ -58,9 +58,18 @@ bool connection::init(const string &local_port, const string &laddr)
 	return true;
 }
 
-bool connection::respond()
+bool connection::respond(int accept_fd)
 {
     printf("connection::respond responding\n");
+    int lbuf = 2048, lrecv = -1;
+    char buf[lbuf];
+    memset(buf, 0, lbuf);
+    //while( lrecv = recv(sock_fd, buf, lbuf, 0) > 0)
+    if( (lrecv = recv(accept_fd, buf, lbuf, 0)) == -1)
+        printf("Error in recving Err=%s\n", strerror(errno));
+    else
+        printf("Received=%d bytes\n%s\n.....\n", lrecv, buf );
+    memset(buf, 0, lbuf);
     return true;
 }
 
@@ -78,7 +87,7 @@ bool connection::loop()
         }
         else    printf("New connection accepted\n");
         if ( fork()==0 )    {
-            respond();
+            respond(afd);
         }
     } //Keep Running until close
     return false;

@@ -18,7 +18,7 @@ public:
 	bool init(const string &, const string &);
 	const string& exit_why();
     bool loop();
-    bool respond();
+    bool respond(int);
 
 };
 
