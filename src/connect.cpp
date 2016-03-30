@@ -45,9 +45,10 @@ bool connection::init(const string &local_port, const string &laddr)
 	addrinfo hint, *ai = NULL;
 	memset(&hint, 0, sizeof(hint));
 	hint.ai_family = family;
+    //hints.ai_addr = INADDR_ANY;
 	hint.ai_socktype = SOCK_STREAM;
-//	#if ((r = getaddrinfo(laddr.c_str(), local_port.c_str(), &hint, &ai)) != 0) {
-	if ((r = getaddrinfo( INADDR_ANY, local_port.c_str(), &hint, &ai)) != 0) {
+	//if ((r = getaddrinfo(laddr.c_str(), local_port.c_str(), &hint, &ai)) != 0) {
+	if ((r = getaddrinfo( laddr.c_str(), local_port.c_str(), &hint, &ai)) != 0) {
 		err = "connection::init::getaddrinfo:";
 		return false;
 	}

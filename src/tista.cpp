@@ -11,6 +11,7 @@ namespace Config    {
 	string http_port = "8080";
 	int cores = 1;
 	string local_port = "80", laddr = "0.0.0.0";
+	//string local_port = "80", laddr = "172.31.16.249";
 }
 
 extern int errno;
