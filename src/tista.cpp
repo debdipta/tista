@@ -8,7 +8,7 @@
 #include "connect.h"
 
 namespace Config    {
-	int http_port = 8080;
+	string http_port = "8080";
 	int cores = 1;
 	string local_port = "80", laddr = "0.0.0.0";
 }
@@ -38,24 +38,23 @@ int main(int argc, char* argv[])
 
 	//Get Optional parameters for server startup
 	while((opt = getopt(argc, argv, ":n:h:iT")) != -1)   {
-		printf("%d", opt);
 		switch(opt) {
 			case 'n':
 				Config::cores = atoi(optarg);
 				break;
 			case 'h':
-				Config::http_port = atoi(optarg);
+				Config::http_port = optarg;
 				break;
 			default:
 				usage();
 				break;
 		}
 	}
-	printf("tista: cpu =%d http_port=%d\n", Config::cores, Config::http_port);
+	//printf("tista: cpu =%d http_port=%d\n", Config::cores, Config::http_port);
     nice(-20);
 	//Start server connectio
 	connection conn;
-	if( false == (conn.init(Config::local_port, Config::laddr))) 	{
+	if( false == (conn.init(Config::http_port, Config::laddr))) 	{
 		fprintf(stderr, "%s\n", conn.exit_why().c_str());
 		exit(errno);
 	}

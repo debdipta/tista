@@ -46,7 +46,8 @@ bool connection::init(const string &local_port, const string &laddr)
 	memset(&hint, 0, sizeof(hint));
 	hint.ai_family = family;
 	hint.ai_socktype = SOCK_STREAM;
-	if ((r = getaddrinfo(laddr.c_str(), local_port.c_str(), &hint, &ai)) != 0) {
+//	#if ((r = getaddrinfo(laddr.c_str(), local_port.c_str(), &hint, &ai)) != 0) {
+	if ((r = getaddrinfo( INADDR_ANY, local_port.c_str(), &hint, &ai)) != 0) {
 		err = "connection::init::getaddrinfo:";
 		return false;
 	}
@@ -64,13 +65,15 @@ bool connection::respond(int accept_fd)
     int lbuf = 2048, lrecv = -1;
     char buf[lbuf];
     memset(buf, 0, lbuf);
-    //while( lrecv = recv(sock_fd, buf, lbuf, 0) > 0)
-    if( (lrecv = recv(accept_fd, buf, lbuf, 0)) == -1)
-        printf("Error in recving Err=%s\n", strerror(errno));
-    else
-        printf("Received=%d bytes\n%s\n.....\n", lrecv, buf );
-    memset(buf, 0, lbuf);
-    return true;
+    while( (lrecv = recv(accept_fd, buf, lbuf, 0)) > 0) {
+        //if( (lrecv = recv(accept_fd, buf, lbuf, 0)) == -1)
+        printf("Received=%d bytes\n%s", lrecv, buf );
+        send(accept_fd, "Hunn\n", strlen("Hunn\n"), 0); 
+        memset(buf, 0, lbuf);
+    }
+    printf("Exiting...\n");
+    close(accept_fd);
+    exit(EXIT_SUCCESS);
 }
 
 bool connection::loop()
