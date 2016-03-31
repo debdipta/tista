@@ -37,7 +37,7 @@ if (argc !=2) {
     //Creation of the socket
     memset(&servaddr, 0, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
-    //servaddr.sin_addr.s_addr= inet_addr(argv[1]);
+    servaddr.sin_addr.s_addr= inet_addr(argv[1]);
     servaddr.sin_port = htons(SERV_PORT);
     //convert to big-endian order //Connection of the client to the socket 
     if (connect(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr))<0)
