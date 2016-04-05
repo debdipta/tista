@@ -91,7 +91,11 @@ bool connection::loop()
         }
         else    printf("New connection accepted\n");
         if ( fork()==0 )    {
+            close(sock_fd);
             respond(afd);
+        }
+        else    {
+            close(afd);
         }
     } //Keep Running until close
     return false;
