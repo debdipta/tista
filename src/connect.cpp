@@ -10,6 +10,8 @@
 #include <netdb.h>
 #include "soc.h"
 #include "logger.h"
+#include "HttpHandler.h"
+
 extern int errno;
 
 connection::connection() : d_http_port(8080), d_local_port(80),
@@ -63,16 +65,21 @@ bool connection::init(const string &local_port, const string &laddr)
 bool connection::respond(int accept_fd)
 {
     printf("connection::respond responding\n");
+    HttpHandler *http_handler = new HttpHandler();
     int lbuf = 2048, lrecv = -1;
     char buf[lbuf];
     memset(buf, 0, lbuf);
     while( (lrecv = recv(accept_fd, buf, lbuf, 0)) > 0) {
-        //if( (lrecv = recv(accept_fd, buf, lbuf, 0)) == -1)
         printf("Received=%d bytes\n%s", lrecv, buf );
-        send(accept_fd, "Hunn\n", strlen("Hunn\n"), 0); 
+        const char* response = http_handler->get_response(buf);
+        send(accept_fd, response, strlen(response), 0); 
         memset(buf, 0, lbuf);
     }
     printf("Exiting...\n");
+    if(NULL != http_handler)    {
+        delete(http_handler);
+        http_handler = NULL;
+    }
     close(accept_fd);
     exit(EXIT_SUCCESS);
 }
